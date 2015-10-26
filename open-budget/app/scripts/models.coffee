@@ -127,7 +127,7 @@ class BudgetItemKids extends Backbone.Collection
             @fetch(dataType: @pageModel.get('dataType'), reset: true)
 
         url: ->
-            "#{pageModel.get('baseURL')}/api/budget/#{@code}/#{@year}/kids"
+            "#{pageModel.get('baseURL')}/api/budget/#{@code}/#{@year}/active-kids"
 
 
 class BudgetItemDepth extends Backbone.Collection
@@ -239,7 +239,7 @@ class ChangeGroup extends Backbone.Model
 
         getCodeChanges: (code) =>
                 year = pageModel.get('year')
-                key = "E#{year}/#{code}"
+                key = "#{year}/#{code}"
                 changes = _.filter(@get('changes'),(c)->_.indexOf(c['equiv_code'],key)>-1)
                 d3.sum(changes, (c)->c['expense_change'])
 
@@ -513,7 +513,10 @@ class Entity extends Backbone.Model
             return null
 
         convert_date_to_str: (d) ->
-            return "" + d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear()
+            if d?
+                "" + d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear()
+            else
+                ""
 
         min_date: (a,b) ->
             if not a?
@@ -661,11 +664,9 @@ class PageModel extends Backbone.Model
                     @budgetHistory = new BudgetHistory([], pageModel: @)
                     @budgetHistory.on 'reset',
                                       () =>
-                                          console.log 'setting currentItem', @budgetHistory
                                           @set('currentItem', @budgetHistory.getLast())
                                           title = @budgetHistory.getLast().get('title')
                                           ga('send', 'event', 'navigation', 'budget', title, 1);
-                                          console.log 'setting currentItem done', title
 
                     @readyEvents.push new ReadyAggregator("ready-budget-history-pre")
                                                 .addCollection(@changeGroups)
