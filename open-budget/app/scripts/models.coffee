@@ -448,6 +448,7 @@ class Participants extends Backbone.Collection
         url: ->
             "#{pageModel.get('baseURL')}/api/participants/#{@code}?limit=1000"
 
+
 class Entity extends Backbone.Model
 
         defaults:
@@ -532,6 +533,23 @@ class Entity extends Backbone.Model
                 return b
             return a
 
+class Exemption extends Backbone.Model
+
+    initialize: (options) ->
+            @pageModel = options.pageModel
+            @publication_id = options.publicationId
+
+    doFetch: ->
+            @fetch(dataType: @pageModel.get('dataType'), success: @handleFetchResult)
+
+    url: =>
+            "#{@pageModel.get('baseURL')}/api/exemption/publication/#{@publication_id}"
+
+    handleFetchResult: (collection, response) =>
+            console.log response
+            @trigger('ready')
+
+
 class ReadyAggregator
 
     constructor: (event) ->
@@ -579,9 +597,11 @@ class ResizeNotifier
         registerResizeCallback: (callback) ->
           @callbackQueue.push(callback)
 
-class SelectedEntity extends Backbone.Model
+class SelectedExemption extends Backbone.Model
+
     defaults:
-        selected: null
+        entity_id: null
+        publication_id: null
         expandedDetails: {}
 
 class DaysLimit extends Backbone.Model
@@ -617,7 +637,7 @@ class PageModel extends Backbone.Model
                 @supportFieldNormalizer = new SupportFieldNormalizer([], pageModel: @)
                 @mainPageTabs           = new window.MainPageTabs(@);
                 @resizeNotifier         = new ResizeNotifier()
-                @selectedEntity         = new SelectedEntity()
+                @selectedExemption      = new SelectedExemption()
                 @daysLimit              = new DaysLimit()
 
                 @URLSchemeHandlerInstance = new window.URLSchemeHandler(@)
@@ -737,6 +757,7 @@ window.models =
         ChangeLine: ChangeLine
         ChangeExplanation: ChangeExplanation
         Entity: Entity
+        Exemption: Exemption
         NewSpendings: NewSpendings
 
 window.pageModel = new PageModel()
@@ -782,4 +803,5 @@ $( ->
 )
 
 window.Entity = Entity
+window.Exemption = Exemption
 window.ReadyAggregator = ReadyAggregator

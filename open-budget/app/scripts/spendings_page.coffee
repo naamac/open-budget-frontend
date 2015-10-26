@@ -19,7 +19,8 @@ class SpendingsPageView extends Backbone.View
             $("div.exemption-alert").on("click", (d) =>
                 $("div.exemption-alert.selected").removeClass("selected");
                 $(d.target).closest("div.exemption-alert").addClass("selected");
-                @model.selectedEntity.set("selected", $(d.target).closest("div.exemption-alert").attr("supplier"))
+                @model.selectedExemption.set("entity_id", $(d.target).closest("div.exemption-alert").attr("entity_id"))
+                @model.selectedExemption.set("publication_id", $(d.target).closest("div.exemption-alert").attr("publication_id"))
             );
     
             $("div.exemption-alert:first").trigger("click")
@@ -34,4 +35,6 @@ $( ->
     if window.pageModel.get("spendingsPage")?
         window.spendingsPageView = new SpendingsPageView({el: $("#spendings-page-article .latest-updates"), model: window.pageModel});
         window.entityDetails = new EntityDetailsView({el: $("#spendings-page-article .entity-details"), model: window.pageModel});
+        window.orphanExemptionPage = new OrphanExemptionView({el: $("#spendings-page-article .orphan-exemption-page"), model:window.pageModel});
+
 )
