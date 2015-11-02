@@ -100,8 +100,6 @@ class ExemptionDetailsRowView extends Backbone.View
             @detailView.toggleHide()
 
     showFullDetailsView: ->
-      if @detailView?
-        @detailView.show()
       @$el.show()
 
     hideFullDetailsView: ->
