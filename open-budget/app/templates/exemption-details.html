@@ -1,1 +1,24 @@
-<div>*** לא הצלחנו לזהות את הרישום של הספק אצל רשות התאגידים ***</div>
+<div class="left-con">
+
+<h2 class='entity-name'><%= name %></h2>
+
+    <div class="left-info">
+        <div class="info">
+
+<h3 class="entity-title">
+&larr;&nbsp1 התקשרויות עם <span class="total"></span>
+משרדים בסך <%= exemptions_sum == null ? 'לא ידוע' : number_with_commas(exemptions_sum==null? 0 : exemptions_sum) + ' ש"ח'%>
+</h3>
+<table class="exemption-table table table-expandable">
+    <thead>
+        <th>שם המשרד</th>
+        <th style="width: 4%;">מס'</th>
+        <th style="width: 10%;">בסך</th>
+        <th style="width: 9%;">התחלה</th>
+        <th style="width: 9%;">סיום</th>
+        <th style="width: 5%;"></th>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>

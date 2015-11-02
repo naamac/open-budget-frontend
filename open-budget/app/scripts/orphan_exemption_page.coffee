@@ -11,6 +11,12 @@ class OrphanExemptionView extends Backbone.View
 
         render: ->
             data = @exemption.toJSON()
+            console.log data
+
+            data['exemptions_sum'] = 12345
+            data['name'] = data['supplier']
+            data['kind'] = data['entity_kind']
+
             @$el.html window.JST.exemption_details( data )
             if @model.selectedExemption.get('entity_id') != ""
                 @$el.css('display','none')
